@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import axios from 'axios';
 import {
   Stack,
@@ -14,6 +14,12 @@ import { useMusicolorStore } from '../hooks/store';
 
 interface SearchBoxProps {
   setSearchResults: React.Dispatch<React.SetStateAction<never[]>>;
+}
+
+interface Song {
+  'im:artist': {
+    label: string;
+  };
 }
 
 const SearchBox = ({ setSearchResults }: SearchBoxProps) => {
@@ -62,7 +68,7 @@ const SearchBox = ({ setSearchResults }: SearchBoxProps) => {
     try {
       const { data } = await axios.get(RANDOM_ARTIST_API_URL);
 
-      const songs = data.feed.entry;
+      const songs: Song[] = data.feed.entry;
       if (!songs || songs.length === 0) {
         console.log('No songs found.');
         return;
@@ -183,7 +189,7 @@ const SearchBox = ({ setSearchResults }: SearchBoxProps) => {
           size='large'
           aria-label='random-artist'
         >
-          I am one lucky onion
+          Random
         </Button>
       </Stack>
     </Stack>
